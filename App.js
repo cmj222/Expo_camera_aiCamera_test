@@ -6,6 +6,8 @@ import * as tf from '@tensorflow/tfjs';
 import * as handpose from '@tensorflow-models/handpose'
 import { cameraWithTensors } from '@tensorflow/tfjs-react-native';
 
+import Canvas from 'react-native-canvas';
+
 
 
 export default function App() {
@@ -53,9 +55,15 @@ export default function App() {
           console.log("predictions:", predictions);
         }
       }
-      requestAnimationFrame(loop); 
+      //requestAnimationFrame(loop); 이거 있으면 카메라 존나 버벅거림. 무슨 역할이지
     }
     loop();
+  }
+
+  handleCanvas = (canvas) => {
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'purple';
+    ctx.fillRect(0, 0, 100, 100);
   }
 
   const inputTensorWidth = 152;
@@ -87,6 +95,7 @@ export default function App() {
             handleCameraStream(images)}
           autorender={AUTORENDER}
         />
+        <Canvas style={styles.camera} ref={this.handleCanvas}/>
     </View>
   );
 }
